@@ -36,11 +36,6 @@ class Widget(QtGui.QWidget, Ui_Form):
         print(str_ooxx)
         self.ooxx.setText(str_ooxx)
 
-    #
-    # xiezuo_hans = input('Enter oo:')
-    # duzuo_hans = input('Enter xx:')
-    # print(duzuo(duzuo_hans))
-    # result()
 
 if __name__ == '__main__':
     import sys
