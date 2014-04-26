@@ -1,45 +1,59 @@
 # -*- coding: UTF-8 -*-
 from pypinyin import pinyin
 import pypinyin
-from PyQt4 import QtGui, QtCore
-from form import Ui_Form
+from PyQt4 import QtCore, QtGui
 
 
-class Widget(QtGui.QWidget, Ui_Form):
-    """QtGui.QWidget和界面设计时选择的类型一致"""
-    def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
-        self.setupUi(self) # Ui_Form.setupUi
-        self.pushButton.clicked.connect(self.result)
+def isset(v):
+    try:
+        type (eval(v))
+    except:
+        return 0
+    else:
+        return 1
 
-    # @QtCore.pyqtSignature("")
-    def xiezuo(self):
-        hans = self.xie.toPlainText()
-        oo_list = list(hans)
-        return oo_list
+def xiezuo(hans):
+    print(hans)
+    oo_list = list(hans)
+    return oo_list
 
-    # @QtCore.pyqtSignature("")
-    def duzuo(self):
-        hans = self.du.toPlainText()
-        xx_list = pinyin(hans, heteronym=True)
-        return xx_list
+def duzuo(hans):
+    xx_list = pinyin(hans, heteronym=True, style=pypinyin.NORMAL)
+    return xx_list
 
-    # @QtCore.pyqtSignature("")
-    def result(self):
-        oo_list = self.xiezuo()
-        xx_list = self.duzuo()
-        ooxx = [0] * len(oo_list)
-        str_ooxx = ''
-        for i in range(0, len(oo_list)):
-            ooxx[i] = ''.join(oo_list[i]) + '(' + ''.join(xx_list[i][0]) + ')'
-            str_ooxx =  str_ooxx + ''.join(ooxx[i])
-        print(str_ooxx)
-        self.ooxx.setText(str_ooxx)
-
-
-if __name__ == '__main__':
-    import sys
-    app = QtGui.QApplication(sys.argv)
-    widget = Widget()
-    widget.show()
-    sys.exit(app.exec_())
+def result(self, str_xiezuo, str_duzuo):
+    oo_list = xiezuo(str_xiezuo)
+    xx_list = duzuo(str_duzuo)
+    ooxx = [0] * (len(oo_list) + len(xx_list))
+    str_ooxx = ''
+    for i in range(12):
+        eval('self.l_ooxx_%02d' % i).setText('')
+    if len(oo_list) == len(xx_list):
+        for i in range(len(oo_list)):
+            num = 2*i
+            ooxx[num] = oo_list[i]
+            num += 1
+            ooxx[num] = '(' + ''.join(xx_list[i][0]) + ')'
+    elif len(oo_list) > len(xx_list):
+        for i in range(len(xx_list)):
+            num = 2*i
+            ooxx[num] = oo_list[i]
+            num += 1
+            ooxx[num] = '(' + ''.join(xx_list[i][0]) + ')'
+        for i in range(len(xx_list), len(oo_list)):
+            num = i + len(xx_list)
+            ooxx[num] = oo_list[i]
+    else:
+        for i in range(len(oo_list)):
+            num = 2*i
+            ooxx[num] = oo_list[i]
+            num += 1
+            ooxx[num] = '(' + ''.join(xx_list[i][0]) + ')'
+        for i in range(len(oo_list), len(xx_list)):
+            num = i + len(oo_list)
+            ooxx[num] = '(' + ''.join(xx_list[i][0]) + ')'
+    for i in range(len(ooxx)):
+        eval('self.l_ooxx_%02d' % i).setText(ooxx[i])
+        str_ooxx = str_ooxx + ''.join(ooxx[i])
+    # print(str_ooxx)
+    self.le_ooxx.setText(str_ooxx)
