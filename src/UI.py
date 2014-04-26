@@ -10,12 +10,13 @@ class UI_Form(QtGui.QWidget):
         QtGui.QWidget.__init__(self,parent)
 
         self.font = QtGui.QFont()
-        self.font.setFamily(u"微软雅黑")
-        self.font.setPointSize(14)
+        self.font.setFamily(u"Microsoft JhengHei")
+        self.font.setPointSize(16)
         self.setFont(self.font)
 
         self.setWindowTitle(u'写作oo读作xx')
         self.setFixedSize(600, 240)
+        self.setStyleSheet('background-color:#333333;color: #ffffff;')
 
         self.l_xiezuo = QtGui.QLabel(self)
         self.l_xiezuo.setText(u'写作')
@@ -25,29 +26,28 @@ class UI_Form(QtGui.QWidget):
 
         self.le_xiezuo = QtGui.QLineEdit(self)
         self.le_xiezuo.setPlaceholderText(u'xx')
-        self.le_xiezuo.setStyleSheet("QLineEdit{border-style:flat;background-color:transparent;}")
+        self.le_xiezuo.setStyleSheet("border-style:flat;background-color:transparent;font: 16pt 'Microsoft JhengHei';color: #78B5DB")
 
         self.le_duzuo = QtGui.QLineEdit(self)
         self.le_duzuo.setPlaceholderText(u'oo')
-        self.le_duzuo.setStyleSheet("QLineEdit{border-style:flat;background-color:transparent;}")
+        self.le_duzuo.setStyleSheet("border-style:flat;background-color:transparent;font: 16pt 'Microsoft JhengHei';color: #78B5DB")
 
         self.le_ooxx = QtGui.QLineEdit(self)
         self.le_ooxx.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.le_ooxx.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.le_ooxx.setStyleSheet("QLineEdit{border-style:flat;background-color:transparent;}")
-        self.font2 = QtGui.QFont()
-        self.font2.setPointSize(10)
-        self.le_ooxx.setFont(self.font2)
+        self.le_ooxx.setStyleSheet("border-style:flat;background-color:transparent;font: 10pt 'Microsoft JhengHei';color: #78B5DB")
 
         clipboard = QtGui.QApplication.clipboard()
 
         for i in range(12):
             setattr(self.__class__, 'l_ooxx_%02d' % i, staticmethod(QtGui.QLabel(self)))
-            eval('self.l_ooxx_%02d' % i).setText('')
-
+            eval('self.l_ooxx_%02d' % i).setStyleSheet("border-style:flat;background-color:transparent;font: 16pt 'Microsoft JhengHei';color: #FAF5E3")
 
         self.pb_clean = QtGui.QPushButton(u'清除', self)
+        self.pb_clean.setMinimumWidth(80)
+        self.pb_clean.setStyleSheet('background-color:#666666;color:#ffffff;font: 16pt "Microsoft JhengHei";border-radius:10px;')
         self.pb_copy = QtGui.QPushButton(u'复制', self)
+        self.pb_copy.setStyleSheet('background-color:#666666;color:#ffffff;font: 16pt "Microsoft JhengHei";border-radius:10px;')
 
         self.connect(self.le_xiezuo, QtCore.SIGNAL(u'returnPressed()'), self.le_duzuo.setFocus)
         self.le_duzuo.returnPressed.connect(lambda:result(self, self.le_xiezuo.text(), self.le_duzuo.text()))
@@ -81,6 +81,8 @@ class UI_Form(QtGui.QWidget):
         grid.addLayout(self.horizontalLayout, 3, 1)
 
         grid.addWidget(self.le_ooxx, 4, 1)
+        # self.spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
+        # grid.addItem(self.spacerItem2, 4, 2)
 
         self.setLayout(grid)
         self.setTabOrder(self.pb_clean, self.le_duzuo)
